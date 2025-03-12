@@ -65,3 +65,16 @@ async function displayCatFacts() {
     }
 }
  
+const samuraiPizzaCats = {
+    leader: "Speedy Cerviche",
+    members: 3,
+    base: {
+        location: "Little Tokyo",
+        name: "Pizza Cat Restaurant",
+    },
+    catchphrase: "It's cheese time!",
+};
+ 
+const { leader, base: { location: baseLocation } } = samuraiPizzaCats;
+console.log(`Leader: ${leader}, Location: ${baseLocation}`);
+ 
