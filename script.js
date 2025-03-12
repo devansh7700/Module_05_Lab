@@ -25,10 +25,43 @@ async function fetchCatBreeds() {
  
 fetchCatBreeds().then((data) => console.log(data));
  
-// Get the selected value from the dropdown
 function getSelectedFactCount() {
     const factCountSelect = document.getElementById('factCount');
     const selectedValue = factCountSelect.value;
-    console.log("Selected number of facts:", selectedValue); // Debugging
+    console.log("Selected number of facts:", selectedValue); 
     return selectedValue;
 }
+
+async function displayCatFacts() {
+    console.log("displayCatFacts function called!"); 
+    const factCount = getSelectedFactCount();
+    const factsContainer = document.getElementById('factsContainer');
+    factsContainer.innerHTML = ''; 
+ 
+    try {
+        console.log("Fetching cat facts..."); 
+        const response = await fetch(`https://catfact.ninja/facts?limit=${factCount}`);
+        console.log("API Response:", response); 
+ 
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+ 
+        const data = await response.json();
+        console.log("Data received:", data); 
+ 
+        if (data.data && data.data.length > 0) {
+            data.data.forEach((fact) => {
+                const factElement = document.createElement('p');
+                factElement.textContent = fact.fact;
+                factsContainer.appendChild(factElement);
+            });
+        } else {
+            factsContainer.textContent = "No facts found.";
+        }
+    } catch (error) {
+        console.error("Error fetching cat facts:", error);
+        factsContainer.textContent = "Failed to load cat facts. Please try again later.";
+    }
+}
+ 
